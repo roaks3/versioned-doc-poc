@@ -26,6 +26,13 @@
       "sidebar_title": "Commands (CLI)",
       "description": "Nomad can be controlled via a command-line interface. This page documents all the commands Nomad accepts.\n",
       "__resourcePath": "docs/commands/index.mdx"
+    },
+    {
+      "layout": "docs",
+      "page_title": "Commands: version",
+      "sidebar_title": "version",
+      "description": "Display the version and build data of Nomad\n",
+      "__resourcePath": "docs/commands/version.mdx"
     }
   ]
 }

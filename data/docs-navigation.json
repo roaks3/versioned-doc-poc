@@ -2,7 +2,7 @@
   "navigation": [
     {
       "category": "commands",
-      "content": ["agent"]
+      "content": ["agent", "version"]
     },
     "----------",
     "schedulers"
