@@ -1,0 +1,10 @@
+{
+  "navigation": [
+    {
+      "category": "commands",
+      "content": ["agent"]
+    },
+    "----------",
+    "schedulers"
+  ]
+}

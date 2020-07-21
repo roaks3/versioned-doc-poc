@@ -1,0 +1,31 @@
+{
+  "frontmatter": [
+    {
+      "layout": "docs",
+      "page_title": "Documentation",
+      "description": "Welcome to the Nomad documentation! This documentation is more of a reference\nguide for all available features and options of Nomad.",
+      "__resourcePath": "docs/index.mdx"
+    },
+    {
+      "layout": "docs",
+      "page_title": "Schedulers",
+      "sidebar_title": "Schedulers",
+      "description": "Learn about Nomad's various schedulers.",
+      "__resourcePath": "docs/schedulers.mdx"
+    },
+    {
+      "layout": "docs",
+      "page_title": "Commands: agent",
+      "sidebar_title": "agent",
+      "description": "The agent command is the main entrypoint to running a Nomad client or server.\n",
+      "__resourcePath": "docs/commands/agent.mdx"
+    },
+    {
+      "layout": "docs",
+      "page_title": "Commands (CLI)",
+      "sidebar_title": "Commands (CLI)",
+      "description": "Nomad can be controlled via a command-line interface. This page documents all the commands Nomad accepts.\n",
+      "__resourcePath": "docs/commands/index.mdx"
+    }
+  ]
+}
