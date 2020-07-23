@@ -35,6 +35,7 @@
 /* Local Components */
 @import '../components/placement-table/style.css';
 @import '../components/footer/style.css';
+@import '../components/version-dropdown/style.css';
 
 /* Sticky Footer */
 .__next > .content {

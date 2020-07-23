@@ -1,0 +1,56 @@
+.g-version-dropdown {
+  margin-bottom: -40px;
+  margin-top: 20px;
+  position: relative;
+
+  & > label {
+    display: none;
+  }
+
+  & .version-btn {
+    align-items: center;
+    background: transparent;
+    border: 1px solid var(--gray-3);
+    border-radius: 2px;
+    color: var(--gray-3);
+    cursor: pointer;
+    display: flex;
+    height: 40px;
+    padding: 8px;
+  }
+
+  & .version-menu {
+    background: white;
+    border-radius: 1px;
+    box-shadow: 0 2px 12px rgba(37, 38, 45, 0.25);
+    display: none;
+    list-style: none;
+    margin: 0;
+    outline: none;
+    padding: 16px 24px;
+    position: absolute;
+    top: 40px;
+    z-index: 1;
+
+    & li:not(:last-child) {
+      margin-bottom: 8px;
+    }
+
+    & a {
+      color: var(--gray-3);
+      display: inline-block;
+      font-size: 15px;
+      white-space: nowrap;
+      width: 100%;
+    }
+
+    & li.highlight a,
+    & a:hover {
+      color: var(--black);
+    }
+
+    &.open {
+      display: block;
+    }
+  }
+}

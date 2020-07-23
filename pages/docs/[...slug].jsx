@@ -16,6 +16,7 @@ import {
   typography,
 } from '@hashicorp/remark-plugins'
 import Placement from '../../components/placement-table'
+import VersionDropdown from '../../components/version-dropdown'
 
 const GITHUB_CONTENT_REPO = 'roaks3/versioned-doc-poc'
 const DEFAULT_COMPONENTS = { Placement }
@@ -27,6 +28,8 @@ export default function DocsDocsPage({
   url,
   sidenavData,
   order,
+  version,
+  versionOptions,
 }) {
   const router = useRouter()
   if (router.isFallback) {
@@ -39,27 +42,35 @@ export default function DocsDocsPage({
 
   const hydratedContent = hydrate(renderedContent, DEFAULT_COMPONENTS)
   return (
-    <MDXProvider components={DEFAULT_COMPONENTS}>
-      <DocsPage
-        product="nomad"
-        head={{
-          is: Head,
-          title: `${frontMatter.page_title} | Nomad by HashiCorp`,
-          description: frontMatter.description,
-          siteName: 'Nomad by HashiCorp',
-        }}
-        sidenav={{
-          Link,
-          category: 'docs',
-          currentPage: `/${url}`,
-          data: sidenavData,
-          order,
-        }}
-        resourceURL={resourceUrl}
-      >
-        {hydratedContent}
-      </DocsPage>
-    </MDXProvider>
+    <>
+      <div className="g-container">
+        <VersionDropdown
+          versionOptions={versionOptions}
+          selectedVersionName={version}
+        />
+      </div>
+      <MDXProvider components={DEFAULT_COMPONENTS}>
+        <DocsPage
+          product="nomad"
+          head={{
+            is: Head,
+            title: `${frontMatter.page_title} | Nomad by HashiCorp`,
+            description: frontMatter.description,
+            siteName: 'Nomad by HashiCorp',
+          }}
+          sidenav={{
+            Link,
+            category: 'docs',
+            currentPage: `/${url}`,
+            data: sidenavData,
+            order,
+          }}
+          resourceURL={resourceUrl}
+        >
+          {hydratedContent}
+        </DocsPage>
+      </MDXProvider>
+    </>
   )
 }
 
@@ -131,6 +142,11 @@ export async function getStaticProps({ params }) {
       url,
       sidenavData,
       order,
+      version,
+      versionOptions: allVersions.map((versionName) => ({
+        name: versionName,
+        url: `/docs/${versionName}/${params.slug.slice(1).join('/')}`,
+      })),
     },
   }
 }

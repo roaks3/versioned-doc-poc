@@ -28,6 +28,7 @@
     "@hashicorp/react-vertical-text-block-list": "^2.0.1",
     "@hashicorp/remark-plugins": "^2.2.1",
     "babel-plugin-import-glob-array": "^0.2.0",
+    "downshift": "^6.0.2",
     "gray-matter": "^4.0.2",
     "imagemin-mozjpeg": "^8.0.0",
     "imagemin-optipng": "^7.1.0",
