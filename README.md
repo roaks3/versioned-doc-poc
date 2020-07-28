@@ -1,6 +1,6 @@
 # Versioned Doc Proof-of-Concept
 
-A work-in-progress project intended to demonstrate the core concepts of the Product Documentation Versioning solution.
+A work-in-progress project intended to demonstrate the core concepts of the Product Documentation Versioning solution. Currently deployed at https://versioned-doc-poc.vercel.app/docs/stable.
 
 Currently includes:
 - NextJS static site generation with fallback behavior, so pages are rendered on-demand once and then cached
