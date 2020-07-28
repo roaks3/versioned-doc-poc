@@ -83,11 +83,14 @@ export async function getStaticProps({ params }) {
     .join('/')}/index.mdx`
 
   // TODO: The source of the available versions is still an open question
-  const allVersions = ['v0.0.2', 'v0.0.1']
+  const allVersions =
+    process.env.LATEST_ENABLED === 'true'
+      ? ['latest', 'v0.0.2', 'v0.0.1']
+      : ['v0.0.2', 'v0.0.1']
 
   // Validate the version that is specified on the url
   // `stable` is a special case that means "the most recent of the valid versions"
-  const version =
+  let version =
     versionParam === 'stable'
       ? allVersions[0]
       : allVersions.find((v) => v === versionParam)
@@ -97,6 +100,8 @@ export async function getStaticProps({ params }) {
   let sidenavData
   let order
   if (process.env.LATEST_ENABLED === 'true' && versionParam === 'latest') {
+    version = 'latest'
+
     // For latest version, use local filesytem content, which may include in-progress changes
     ;[fileContent, indexFileContent, sidenavData, order] = await Promise.all([
       fetchLocalContent(filePath),
