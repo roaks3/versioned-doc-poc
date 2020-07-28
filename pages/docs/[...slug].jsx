@@ -181,11 +181,17 @@ async function fetchLocalJson(jsonFilePath) {
 }
 
 async function fetchGithubContent(version, contentFilePath) {
-  return (
+  const response = await (
     await fetch(
       `https://raw.githubusercontent.com/${GITHUB_CONTENT_REPO}/${version}/${contentFilePath}`
     )
   ).text()
+
+  if (response === '404: Not Found') {
+    return undefined
+  }
+
+  return response
 }
 
 async function fetchGithubJson(version, jsonFilePath) {
