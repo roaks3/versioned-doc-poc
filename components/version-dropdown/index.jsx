@@ -2,13 +2,14 @@ import Link from 'next/link'
 import { useSelect } from 'downshift'
 
 // export interface VersionOption {
-//   name: string
+//   slug: string
+//   display: string
 //   url: string
 // }
 
 export default function VersionDropdown({
   versionOptions,
-  selectedVersionName,
+  selectedVersionSlug,
 }) {
   const {
     isOpen,
@@ -20,6 +21,9 @@ export default function VersionDropdown({
   } = useSelect({
     items: versionOptions.map((versionOption) => versionOption.name),
   })
+  const selectedVersionDisplay = versionOptions.find(
+    (option) => option.slug === selectedVersionSlug
+  ).display
 
   return (
     <div className="g-version-dropdown">
@@ -28,7 +32,7 @@ export default function VersionDropdown({
         {...getToggleButtonProps()}
         className="version-btn g-type-buttons-and-standalone-links"
       >
-        {selectedVersionName}
+        {selectedVersionDisplay}
       </button>
       <ul
         {...getMenuProps()}
@@ -38,14 +42,14 @@ export default function VersionDropdown({
       >
         {isOpen && (
           <>
-            {versionOptions.map((versionOption, index) => (
+            {versionOptions.map((option, index) => (
               <li
-                key={versionOption.name}
-                {...getItemProps({ item: versionOption.name, index })}
+                key={option.slug}
+                {...getItemProps({ item: option.slug, index })}
                 className={highlightedIndex === index ? 'highlight' : ''}
               >
-                <Link href={versionOption.url} prefetch={false}>
-                  <a>{versionOption.name}</a>
+                <Link href={option.url} prefetch={false}>
+                  <a>{option.display}</a>
                 </Link>
               </li>
             ))}

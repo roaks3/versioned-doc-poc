@@ -17,6 +17,7 @@ import {
 } from '@hashicorp/remark-plugins'
 import Placement from '../../components/placement-table'
 import VersionDropdown from '../../components/version-dropdown'
+import versionManifest from '../../data/version-manifest.json'
 
 const GITHUB_CONTENT_REPO = 'roaks3/versioned-doc-poc'
 const DEFAULT_COMPONENTS = { Placement }
@@ -28,7 +29,7 @@ export default function DocsDocsPage({
   url,
   sidenavData,
   order,
-  version,
+  versionSlug,
   versionOptions,
 }) {
   const router = useRouter()
@@ -46,7 +47,7 @@ export default function DocsDocsPage({
       <div className="g-container">
         <VersionDropdown
           versionOptions={versionOptions}
-          selectedVersionName={version}
+          selectedVersionSlug={versionSlug}
         />
       </div>
       <MDXProvider components={DEFAULT_COMPONENTS}>
@@ -82,26 +83,30 @@ export async function getStaticProps({ params }) {
     .slice(1)
     .join('/')}/index.mdx`
 
-  // TODO: The source of the available versions is still an open question
+  const stableVersions = versionManifest.versions
   const allVersions =
     process.env.LATEST_ENABLED === 'true'
-      ? ['latest', 'v0.0.2', 'v0.0.1']
-      : ['v0.0.2', 'v0.0.1']
+      ? [
+          {
+            slug: 'latest',
+            display: 'Latest',
+          },
+          ...stableVersions,
+        ]
+      : stableVersions
 
   // Validate the version that is specified on the url
-  // `stable` is a special case that means "the most recent of the valid versions"
-  let version =
+  // `stable` is a special case that means "the most recent of the stable versions"
+  const version =
     versionParam === 'stable'
-      ? allVersions[0]
-      : allVersions.find((v) => v === versionParam)
+      ? stableVersions[0]
+      : allVersions.find((v) => v.slug === versionParam)
 
   let fileContent
   let indexFileContent
   let sidenavData
   let order
   if (process.env.LATEST_ENABLED === 'true' && versionParam === 'latest') {
-    version = 'latest'
-
     // For latest version, use local filesytem content, which may include in-progress changes
     ;[fileContent, indexFileContent, sidenavData, order] = await Promise.all([
       fetchLocalContent(filePath),
@@ -110,19 +115,23 @@ export async function getStaticProps({ params }) {
       (await fetchLocalJson('data/docs-navigation.json')).navigation,
     ])
   } else {
+    // Invalid version in url
     if (!version) {
       return {
         props: {},
       }
     }
 
+    const commitSha = version['commit-sha']
+
     // For other versions, use github raw cdn content
     ;[fileContent, indexFileContent, sidenavData, order] = await Promise.all([
-      fetchGithubContent(version, filePath),
-      fetchGithubContent(version, indexFilePath),
-      (await fetchGithubJson(version, 'data/docs-frontmatter.json'))
+      fetchGithubContent(commitSha, filePath),
+      fetchGithubContent(commitSha, indexFilePath),
+      (await fetchGithubJson(commitSha, 'data/docs-frontmatter.json'))
         .frontmatter,
-      (await fetchGithubJson(version, 'data/docs-navigation.json')).navigation,
+      (await fetchGithubJson(commitSha, 'data/docs-navigation.json'))
+        .navigation,
     ])
   }
 
@@ -142,15 +151,16 @@ export async function getStaticProps({ params }) {
       renderedContent,
       frontMatter: data,
       resourceUrl: `https://github.com/${GITHUB_CONTENT_REPO}/blob/${
-        version || 'master'
+        version['commit-sha'] || 'master'
       }/${fileContent ? filePath : indexFilePath}`,
       url,
       sidenavData,
       order,
-      version,
-      versionOptions: allVersions.map((versionName) => ({
-        name: versionName,
-        url: `/docs/${versionName}/${params.slug.slice(1).join('/')}`,
+      versionSlug: version.slug,
+      versionOptions: allVersions.map((v) => ({
+        slug: v.slug,
+        display: v.display,
+        url: `/docs/${v.slug}/${params.slug.slice(1).join('/')}`,
       })),
     },
   }
@@ -180,10 +190,10 @@ async function fetchLocalJson(jsonFilePath) {
   return JSON.parse(await fetchLocalContent(jsonFilePath))
 }
 
-async function fetchGithubContent(version, contentFilePath) {
+async function fetchGithubContent(commitSha, contentFilePath) {
   const response = await (
     await fetch(
-      `https://raw.githubusercontent.com/${GITHUB_CONTENT_REPO}/${version}/${contentFilePath}`
+      `https://raw.githubusercontent.com/${GITHUB_CONTENT_REPO}/${commitSha}/${contentFilePath}`
     )
   ).text()
 
@@ -194,6 +204,6 @@ async function fetchGithubContent(version, contentFilePath) {
   return response
 }
 
-async function fetchGithubJson(version, jsonFilePath) {
-  return JSON.parse(await fetchGithubContent(version, jsonFilePath))
+async function fetchGithubJson(commitSha, jsonFilePath) {
+  return JSON.parse(await fetchGithubContent(commitSha, jsonFilePath))
 }
