@@ -85,20 +85,20 @@ export async function getStaticProps({ params }) {
 
   const stableVersions = versionManifest.versions
   const allVersions =
-    process.env.LATEST_ENABLED === 'true'
+    process.env.NEXT_VERSION_ENABLED === 'true'
       ? [
           {
-            slug: 'latest',
-            display: 'Latest',
+            slug: 'next',
+            display: 'Next',
           },
           ...stableVersions,
         ]
       : stableVersions
 
   // Validate the version that is specified on the url
-  // `stable` is a special case that means "the most recent of the stable versions"
+  // `latest` is a special case that means "the most recent of the stable versions"
   const version =
-    versionParam === 'stable'
+    versionParam === 'latest'
       ? stableVersions[0]
       : allVersions.find((v) => v.slug === versionParam)
 
@@ -106,8 +106,8 @@ export async function getStaticProps({ params }) {
   let indexFileContent
   let sidenavData
   let order
-  if (process.env.LATEST_ENABLED === 'true' && versionParam === 'latest') {
-    // For latest version, use local filesytem content, which may include in-progress changes
+  if (process.env.NEXT_VERSION_ENABLED === 'true' && versionParam === 'next') {
+    // For next version, use local filesytem content, which may include in-progress changes
     ;[fileContent, indexFileContent, sidenavData, order] = await Promise.all([
       fetchLocalContent(filePath),
       fetchLocalContent(indexFilePath),

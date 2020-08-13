@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="g-footer">
       <div className="g-container">
         <div className="left">
-          <Link href="/docs/stable">
+          <Link href="/docs/latest">
             <a>Docs</a>
           </Link>
           <a href="https://hashicorp.com/privacy">Privacy</a>

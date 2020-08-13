@@ -13,7 +13,7 @@ export default [
   },
   {
     text: 'Docs',
-    url: '/docs/stable',
+    url: '/docs/latest',
     type: 'inbound',
   },
 ]

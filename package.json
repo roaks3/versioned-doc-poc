@@ -53,7 +53,7 @@
   "main": "index.js",
   "scripts": {
     "build": "next build",
-    "dev": "rm -rf .next/cache/next-babel-loader/ && LATEST_ENABLED=true next dev",
+    "dev": "rm -rf .next/cache/next-babel-loader/ && NEXT_VERSION_ENABLED=true next dev",
     "format": "next-hashicorp format",
     "lint": "next-hashicorp lint",
     "start": "next start -p $PORT"
