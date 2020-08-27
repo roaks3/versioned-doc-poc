@@ -10,6 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Create Pull Request
-        run: hub --noop pull-request -b "master" --no-edit
+        run: hub --noop pull-request --no-edit
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
