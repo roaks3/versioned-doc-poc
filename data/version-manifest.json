@@ -1,6 +1,12 @@
 {
   "versions": [
     {
+      "slug": "v0.0.1",
+      "display": "v0.0.1",
+      "ref": "v0.0.1",
+      "commit-sha": "3c02bcf36f9846eeaa90c17eb0bf4a7f601e1985"
+    },
+    {
       "slug": "v0.0.2",
       "display": "v0.0.2",
       "ref": "v0.0.2",
