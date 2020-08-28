@@ -8,6 +8,7 @@ Currently includes:
 - Urls structured as `/docs/<version>/<path-to-content>`, eg. `/docs/v0.0.1/schedulers`
     - `next` version uses the local unstaged content (requires `NEXT_VERSION_ENABLED=true`)
     - `latest` version uses the most recent available version
+- Command to automate workflow for releasing documentation: `make docs-release VERSION=<version>`
 
 ## Quick Start
 
