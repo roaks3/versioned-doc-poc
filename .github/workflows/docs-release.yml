@@ -10,6 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Create Pull Request
-        run: hub pull-request -m "Test Title"
+        run: hub pull-request -m "Release docs for ${GITHUB_REF:24}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
